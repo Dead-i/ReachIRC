@@ -1,0 +1,11 @@
+{
+	"name": "ReachIRC",
+	"version": "1.0.0",
+	"description": "A mini web IRC client for your website",
+	"author": "Ethan Waite (Dead-i)",
+	"main": "server/server.js",
+	"license": "CC BY-SA 3.0",
+	"dependencies": {
+		"socket.io": "1.0"
+	}
+}
