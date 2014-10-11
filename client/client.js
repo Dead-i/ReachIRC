@@ -8,6 +8,8 @@ var config = {
 	'port': reachirc.port || 6667,
 	'channel': reachirc.channel,
 	'nick': reachirc.nick || 'guest_' + Math.floor(Math.random() * 100000),
+	'ident': reachirc.ident || 'ReachIRC',
+	'realname': reachirc.realname || 'ReachIRC Web Client',
 	'tagline': reachirc.tagline || 'Chat with us live on IRC',
 	'welcome': reachirc.welcome || 'Welcome to IRC.'
 };
@@ -40,5 +42,5 @@ $('.title', b).click(function() {
 $('.connect', b).submit(function(e) {
 	e.preventDefault();
 	var sock = io(loc);
-	sock.emit('join', { server: config.server, port: config.port, channel: config.channel, nick: $('.connect #nick', b).val() });
+	sock.emit('join', { server: config.server, port: config.port, channel: config.channel, nick: $('.connect #nick', b).val(), ident: config.ident, realname: config.realname });
 });

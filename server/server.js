@@ -30,7 +30,7 @@ function handler(req, res) {
 io.on('connection', function(c) {
 	// When the user wants to join IRC
 	c.on('join', function(params) {
-		if (!(params.server && params.port && params.channel && params.nick)) {
+		if (!(params.server && params.port && params.channel && params.nick && params.ident && params.realname)) {
 			c.emit({ 'error': 'parameters' });
 			return;
 		}
@@ -39,7 +39,7 @@ io.on('connection', function(c) {
 		
 		// When the connection has succeeded
 		c.irc.on('connect', function() {
-			c.irc.write('USER ' + params.nick + ' ReachIRC ReachIRC ReachIRC :ReachIRC Online Web Client\r\n');
+			c.irc.write('USER ' + params.ident + ' ReachIRC ReachIRC :' + params.realname + '\r\n');
 			c.irc.write('NICK ' + params.nick + '\r\n');
 		});
 		
@@ -52,6 +52,11 @@ io.on('connection', function(c) {
 			// Handle pings
 			if (ex[0] == 'PING') {
 				c.irc.write('PONG ' + ex[1] + '\r\n');
+			}
+			
+			// Join the channel when needed
+			if (ex[1] == '001') {
+				c.irc.write('JOIN ' + params.channel + '\r\n');	
 			}
 			
 			console.log(data);
