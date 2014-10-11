@@ -1,7 +1,29 @@
 @import url('http://fonts.googleapis.com/css?family=Open+Sans:400,300,700');
 
-body {
+body, input {
 	font-family:Open Sans, Helvetica Neue, Trebuchet MS, Arial, sans-serif;
+}
+
+input {
+	padding:6px;
+}
+
+input[type="text"] {
+	border:solid 1px #eee;
+}
+
+input[type="submit"] {
+	background-color:#f2875e;
+	border:none;
+	border-radius:3px;
+	color:#fff;
+	padding:9px;
+	opacity:0.8;
+	transition:.5s ease;
+}
+
+input[type="submit"]:hover {
+	opacity:1;
 }
 
 .main {
@@ -23,4 +45,13 @@ body {
 	background-color:#fff;
 	font-size:12px;
 	padding:12px;
+}
+
+.connect {
+	text-align:center;
+}
+
+.connect input[type="text"] {
+	font-size:16px;
+	text-align:center;
 }

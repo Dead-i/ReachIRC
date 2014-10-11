@@ -18,9 +18,12 @@ i.find('head').html('<link href="' + loc + '/style.css" rel="stylesheet" type="t
 var b = i.find('body');
 b.html('<div class="main"><div class="title">' + reachirc.tagline + '</div><div class="content"></div></div>');
 
+// Get the default nickname
+var defaultnick = reachirc.nick || 'guest_' + Math.floor(Math.random() * 100000);
+
 // Get the content
 var c = b.find('.content');
-c.append('<div class="welcome">' + reachirc.welcome + '</div>');
+c.append('<div class="welcome">' + reachirc.welcome + '<form class="connect"><p>Your nickname:<input type="text" id="nick" value="' + defaultnick + '" /></p><p><input type="submit" value="Connect to IRC" /></form></div>');
 
 // When the bar is clicked
 $('.title', b).click(function() {
