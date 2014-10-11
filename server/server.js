@@ -57,6 +57,12 @@ io.on('connection', function(c) {
 			// Join the channel when needed
 			if (ex[1] == '001') {
 				c.irc.write('JOIN ' + params.channel + '\r\n');	
+				c.emit('connected');
+			}
+			
+			// Handle messages
+			if (ex[1] == 'PRIVMSG' && ex[2] == params.channel) {
+				c.emit('msg', { 'user': getNick(ex[0]), 'msg': trimData(ex, 3) });
 			}
 			
 			console.log(data);
@@ -68,6 +74,18 @@ io.on('connection', function(c) {
 function log(msg, c) {
 	console.log('\x1B[90m[\x1b[36m' + new Date().toTimeString().split(' ')[0] + '\x1B[90m] ' + msg + '\x1b[0m');
 }
+
+// Function to get the nick from a user string
+function getNick(user) {
+	return user.split('!')[0].substring(1);
+}
+
+// Function to trim part of the data
+function trimData(data, amount) {
+	data.splice(0, amount);
+	return data.join(' ').substring(1)
+}
+
 
 // Start listening
 app.listen(8080);

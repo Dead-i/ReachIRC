@@ -11,8 +11,10 @@ var config = {
 	'ident': reachirc.ident || 'ReachIRC',
 	'realname': reachirc.realname || 'ReachIRC Web Client',
 	'tagline': reachirc.tagline || 'Chat with us live on IRC',
-	'welcome': reachirc.welcome || 'Welcome to IRC.'
+	'welcome': reachirc.welcome || 'Welcome to IRC.',
+	'header': reachirc.header || 'You are now connected to IRC.',
 };
+var sock;
 var c;
 
 // Create the frame
@@ -31,7 +33,7 @@ b.html('<div class="main"><div class="title">' + config.tagline + '</div><div cl
 
 // Get the content
 var c = b.find('.content');
-c.append('<div class="welcome">' + config.welcome + '<form class="connect"><p>Your nickname:<input type="text" id="nick" value="' + config.nick + '" /></p><p><input type="submit" value="Connect to IRC" /></form></div>');
+c.append('<div class="welcome">' + config.welcome + '<form class="connect"><p>Your nickname:<input type="text" id="nick" value="' + config.nick + '" /></p><p><input type="submit" value="Connect to IRC" /></form></div><div class="channel"><div class="chat"><h2>' + config.header + '</h2></div><form class="send"><input type="text" placeholder="Your message" /><input type="submit" value="Send" /></form>');
 
 // When the bar is clicked
 $('.title', b).click(function() {
@@ -41,6 +43,24 @@ $('.title', b).click(function() {
 // When the connect form is submitted
 $('.connect', b).submit(function(e) {
 	e.preventDefault();
-	var sock = io(loc);
+	
+	// Connect to the socket
+	sock = io(loc);
+	
+	// Send the join event
 	sock.emit('join', { server: config.server, port: config.port, channel: config.channel, nick: $('.connect #nick', b).val(), ident: config.ident, realname: config.realname });
+	
+	// When the connection has been made to IRC
+	sock.on('connected', function() {
+		$('.welcome', b).fadeOut(500, function() {
+			$('.channel', b).fadeIn(500);
+		});
+	});
+	
+	// When a message is received
+	sock.on('msg', function(data) {
+		$('.chat', b).append('<div><h3></h3><span></span></div>');
+		$('.chat div', b).last().find('h3').text(data.user);
+		$('.chat div', b).last().find('span').text(data.msg);
+	});
 });

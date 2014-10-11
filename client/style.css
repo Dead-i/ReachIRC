@@ -26,6 +26,20 @@ input[type="submit"]:hover {
 	opacity:1;
 }
 
+h2 {
+	background-color:#eee;
+	border:solid 1px #ccc;
+	font-size:12px;
+	text-align:center;
+	color:#666;
+	padding:9px;
+	margin-top:0px;
+}
+
+h3 {
+	margin-bottom:0px;
+}
+
 .main {
 	border:solid 3px #333;
 	border-radius:4px 4px 0px 0px;
@@ -54,4 +68,8 @@ input[type="submit"]:hover {
 .connect input[type="text"] {
 	font-size:16px;
 	text-align:center;
+}
+
+.channel {
+	display:none;
 }
