@@ -9,14 +9,18 @@ $('body').append('<iframe src="about:blank" id="reachirc" scrolling="no"></ifram
 $('#reachirc').css({ 'height': 50, 'border': 'none', 'z-index': 900, 'position': 'fixed', 'bottom': 0, 'right': 24 });
 
 // Get the frame's contents
-var c = $('#reachirc').contents();
+var i = $('#reachirc').contents();
 
 // Add the CSS file
-c.find('head').html('<link href="' + loc + '/style.css" rel="stylesheet" type="text/css" />');
+i.find('head').html('<link href="' + loc + '/style.css" rel="stylesheet" type="text/css" />');
 
-// Main bar
-var b = $('#reachirc').contents().find('body');
-b.html('<div class="main"><div class="title">Chat with us on IRC</div><div class="content"></div></div>');
+// Create the main body
+var b = i.find('body');
+b.html('<div class="main"><div class="title">' + reachirc.tagline + '</div><div class="content"></div></div>');
+
+// Get the content
+var c = b.find('.content');
+c.append('<div class="welcome">' + reachirc.welcome + '</div>');
 
 // When the bar is clicked
 $('.title', b).click(function() {

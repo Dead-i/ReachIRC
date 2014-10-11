@@ -21,4 +21,6 @@ body {
 .content {
 	height:250px;
 	background-color:#fff;
+	font-size:12px;
+	padding:12px;
 }
