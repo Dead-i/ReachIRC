@@ -33,7 +33,7 @@ b.html('<div class="main"><div class="title">' + config.tagline + '</div><div cl
 
 // Get the content
 var c = b.find('.content');
-c.append('<div class="welcome">' + config.welcome + '<form class="connect"><p>Your nickname:<input type="text" id="nick" value="' + config.nick + '" /></p><p><input type="submit" value="Connect to IRC" /></form></div><div class="channel"><div class="chat"><h2>' + config.header + '</h2></div><form class="send"><input type="text" placeholder="Your message" /><input type="submit" value="Send" /></form>');
+c.append('<div class="welcome">' + config.welcome + '<form class="connect"><p>Your nickname:<input type="text" id="nick" value="' + config.nick + '" /></p><p><input type="submit" value="Connect to IRC" /></form></div><div class="channel"><div class="chat"><h2>' + config.header + '</h2></div><form class="send"><input type="text" id="msg" placeholder="Your message" /><input type="submit" value="Send" /></form>');
 
 // When the bar is clicked
 $('.title', b).click(function() {
@@ -60,7 +60,7 @@ $('.connect', b).submit(function(e) {
 	// When a message is received
 	sock.on('msg', function(data) {
 		$('.chat', b).append('<div><h3></h3><span></span></div>');
-		$('.chat div', b).last().find('h3').text(data.user);
+		$('.chat div', b).last().find('h3').text(data.user + ':');
 		$('.chat div', b).last().find('span').text(data.msg);
 	});
 });

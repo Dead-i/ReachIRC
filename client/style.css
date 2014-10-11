@@ -73,3 +73,21 @@ h3 {
 .channel {
 	display:none;
 }
+
+.chat {
+	height:188px;
+	overflow-y:auto;
+}
+
+.chat > div {
+	margin-bottom:4px;
+}
+
+.send #msg {
+	width:200px;
+	border-radius:0px;
+}
+
+.send input[type="submit"] {
+	padding:6px 9px;
+}
