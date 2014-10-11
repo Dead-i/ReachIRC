@@ -12,8 +12,12 @@ log('https://www.github.com/Dead-i/ReachIRC\n');
 
 // Web server handler
 function handler(req, res) {
-	fs.readFile('../client/client.js', function(err, data) {
-		if (err) throw err;
+	fs.readFile('../client/' + req.url.split('/')[1], function(err, data) {
+		if (err) {
+			res.writeHead(404);
+			res.end('<h1>404 Not Found</h1>');
+			return;
+		}
 		
 		log('Serving client file to ' + req.connection.remoteAddress + '...');
 		res.writeHead(200);
