@@ -3,6 +3,7 @@
 
 // Include libraries
 var app = require('http').createServer(handler);
+var net = require('net');
 var io = require('socket.io')(app);
 var fs = require('fs');
 
@@ -24,6 +25,39 @@ function handler(req, res) {
 		res.end(data);
 	});
 }
+
+// Socket connection handler
+io.on('connection', function(c) {
+	// When the user wants to join IRC
+	c.on('join', function(params) {
+		if (!(params.server && params.port && params.channel && params.nick)) {
+			c.emit({ 'error': 'parameters' });
+			return;
+		}
+		
+		c.irc = net.connect({ host: params.server, port: params.port });
+		
+		// When the connection has succeeded
+		c.irc.on('connect', function() {
+			c.irc.write('USER ' + params.nick + ' ReachIRC ReachIRC ReachIRC :ReachIRC Online Web Client\r\n');
+			c.irc.write('NICK ' + params.nick + '\r\n');
+		});
+		
+		// When data is received from the IRC server
+		c.irc.on('data', function(data) {
+			// Parse data
+			data = data.toString();
+			var ex = data.split(' ');
+			
+			// Handle pings
+			if (ex[0] == 'PING') {
+				c.irc.write('PONG ' + ex[1] + '\r\n');
+			}
+			
+			console.log(data);
+		});
+	});
+});
 
 // Log function
 function log(msg, c) {
